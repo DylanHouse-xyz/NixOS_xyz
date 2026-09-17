@@ -42,6 +42,21 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
+  # Enable Autoupdates when they release
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.allowReboot = false;
+
+
+  # Garbage Collection
+  nix.optimise.automatic = true;
+  
+  nix.gc = {
+    automatic = true;
+    dates =" weekly";
+    options = "--delete-older-than 30d";
+  };
+
+
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
@@ -98,11 +113,12 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    python3
     git
+    obsidian
     rustc
     cargo
     rustup
+    wget
     curl
     neovim
     ripgrep
