@@ -23,11 +23,29 @@
     };
   };
 
+  formatter.conform-nvim = {
+    enable = true;
+    setupOpts.format_on_save = {
+      timeout_ms = 500;
+      lsp_fallback = true;
+     };
+    };
+
+  debugger.nvim-dap = {
+    enable = true;
+    ui.enable = true;
+   };
+
   languages = {
     enableTreesitter = true;
+    enableDAP = true;
+    enableFormat = true;
+
   r ={
     enable = true;
     lsp.enable = true;
+    format.enable = true;
+
    };
   python = {
     enable = true;
@@ -38,6 +56,10 @@
     lsp.enable = true;
    };
   bash = {
+    enable = true;
+    lsp.enable = true;
+   };
+  nix = {
     enable = true;
     lsp.enable = true;
    };

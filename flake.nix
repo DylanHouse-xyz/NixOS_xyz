@@ -6,11 +6,13 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nvf.url = "github:notashelf/nvf";
+    helium.url = "github:AlvaroParker/helium-nix";
+    helium.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs"; # Ensures same version
   };
 
-  outputs = { self, nixpkgs, nvf, home-manager, ...}:
+  outputs = { self, nixpkgs, nvf, home-manager, helium, ...}:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -28,6 +30,7 @@
     nixosConfigurations = {
       nixos = lib.nixosSystem {
         inherit system;
+        specialArgs = { inherit helium; };
 	modules = [
           nvf.nixosModules.default 
           ./configuration.nix 
