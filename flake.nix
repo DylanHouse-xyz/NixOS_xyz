@@ -17,10 +17,12 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in {
 
-    packages.system.default =
+    packages.${system}.default =
       (nvf.lib.neovimConfiguration {
         inherit pkgs;
-        modules = [ ./modules/nvf-configuration.nix ];
+        modules = [ ./modules/Neovim/nvf.nix
+                    ./modules/Neovim/keymaps.nix
+   ];
       }).neovim;
 
     nixosConfigurations = {
