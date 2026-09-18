@@ -15,24 +15,32 @@
 
   binds.whichKey.enable = true;
 
+  clipboard = {
+    enable = true;
+    providers = {
+      xclip.enable = true;
+      xclip.package = pkgs.xclip;
+    };
+  };
+
   languages = {
     enableTreesitter = true;
-
-
-  r.enable = true;
-  r.lsp.enable = true;
-
-  python.enable = true;
-  python.lsp.enable = true;
-
-  rust.enable = true;
-  rust.lsp.enable = true;
-
-  bash.enable = true;
-  bash.lsp.enable = true;  
-
-
-  
+  r ={
+    enable = true;
+    lsp.enable = true;
+   };
+  python = {
+    enable = true;
+    lsp.enable = true;
+   };
+  rust = {
+    enable = true;
+    lsp.enable = true;
+   };
+  bash = {
+    enable = true;
+    lsp.enable = true;
+   };
   };
  };
 }
