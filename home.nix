@@ -15,6 +15,17 @@
   # release notes.
   home.stateVersion = "26.05"; # Please read the comment before changing.
 
+
+
+  imports =
+    [
+      ./modules/dotfiles/bash.nix
+      ./modules/dotfiles/kitty.nix
+      ./modules/dotfiles/tmux.nix
+
+    ];
+
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
@@ -36,41 +47,6 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-
-  programs.kitty = {
-
-    enable = true;
-    font = {
-      name = "JetBrainsMono Nerd Font";
-      size = 16;
-    };
-    
-    themeFile = "tokyo_night_night";
-    settings = {
-      background_opacity = "0.9";
-      cursor_shape = "beam";
-      confirm_os_window_close = 0;
-      enable_audio_bell = false;
-      
-    };
-  };
-
-  programs.bash = {
-    enable = true;
-    bashrcExtra = ''
-      
-    '';
-    shellAliases = {
-      ll = "ls -l";
-      ".." = "cd ../";
-      uob = "ssh housed@bluebear.bham.ac.uk"; # my ssh
-      os-rebuild = "cd /etc/nixos/ && sudo nixos-rebuild switch --flake . && cd -";
-      home-rebuild = "home-manager switch -f /etc/nixos/home.nix";
-    };
-    initExtra = ''
-      [ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
-    '';
-  };
 
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
