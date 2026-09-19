@@ -4,29 +4,14 @@
 {
   config,
   pkgs,
-  pkgs-unstable,
-  helium,
   ...
 }: 
-
-
-# R with Packages
-let
-  R = pkgs.rWrapper.override {
-    packages = with pkgs.rPackages; [
-      remotes
-      tidyverse
-      ggplot2
-      dplyr
-      xts
-    ];
-  };
-in
 
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./modules/packages/system-packages.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -156,41 +141,13 @@ in
   #Experimental features and Flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-41.10.6"
+ ];
 
-  # List packages installed in system profile.
-  # You can use https://search.nixos.org/ to find more packages (and options).
-  environment.systemPackages = 
-    (with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    git
-    gcc
-    openconnect
-    obsidian
-    rustc
-    cargo
-    rustup
-    wget
-    curl
-    kitty
-    kitty.terminfo
-    ripgrep
-    fd
-    R
-    helium.packages.${system}.default
-    discord
-  ])
-
-   ++
-
-   (with pkgs-unstable; [
-     nextflow
-
-  ]);
 
   programs.tmux = {
   enable = true;
