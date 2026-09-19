@@ -1,10 +1,11 @@
 {
 
-  description = " Dylan's Flake";
+  description = " Dylan's main Flake file.";
 
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable"; # Unstable channel
     nvf.url = "github:notashelf/nvf";
     helium.url = "github:AlvaroParker/helium-nix";
     helium.inputs.nixpkgs.follows = "nixpkgs";
@@ -12,11 +13,13 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs"; # Ensures same version
   };
 
-  outputs = { self, nixpkgs, nvf, home-manager, helium, ...}:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nvf, home-manager, helium, ...}:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+
     in {
 
     packages.${system}.default =
@@ -30,7 +33,10 @@
     nixosConfigurations = {
       nixos = lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit helium; };
+        specialArgs = {
+          inherit helium;
+          inherit pkgs-unstable;             
+        };
 	modules = [
           nvf.nixosModules.default 
           ./configuration.nix 
@@ -40,6 +46,9 @@
     homeConfigurations = {
     dylan = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
+      extraSpecialArgs = {
+        inherit pkgs-unstable;
+       };
       modules = [ ./home.nix ];
      };
    };

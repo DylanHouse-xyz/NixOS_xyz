@@ -4,6 +4,7 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   helium,
   ...
 }: 
@@ -11,7 +12,7 @@
 
 # R with Packages
 let
-  R-with-my-packages = pkgs.rWrapper.override {
+  R = pkgs.rWrapper.override {
     packages = with pkgs.rPackages; [
       remotes
       tidyverse
@@ -163,10 +164,12 @@ in
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = 
+    (with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     git
     gcc
+    openconnect
     obsidian
     rustc
     cargo
@@ -177,17 +180,24 @@ in
     kitty.terminfo
     ripgrep
     fd
-    R-with-my-packages
+    R
     helium.packages.${system}.default
-  ];
+    discord
+  ])
+
+   ++
+
+   (with pkgs-unstable; [
+     nextflow
+
+  ]);
 
   programs.tmux = {
   enable = true;
   clock24 = true;
   extraConfig = ''
-    # used for less common options, intelligently combines if defined in multiple places.
     set -g mouse on
-    # Set terminal with proper colors
+
     set -g default-terminal "tmux-256color"
     set -as terminal-features ",xterm-256color:RGB"
     set -g history-limit 50000
