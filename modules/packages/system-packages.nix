@@ -1,7 +1,9 @@
-{ config, pkgs, pkgs-unstable, helium, ... }:
-
-
-
+{
+  pkgs,
+  pkgs-unstable,
+  helium,
+  ...
+}:
 # R with Packages
 let
   R = pkgs-unstable.rWrapper.override {
@@ -22,35 +24,31 @@ let
       dplyr
       remotes
       data_table
-     ];
-    };
-in
-{
-  environment.systemPackages = 
+    ];
+  };
+in {
+  environment.systemPackages =
     (with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    git
-    gcc
-    openconnect
-    obsidian
-    rustc
-    cargo
-    rustup
-    wget
-    curl
-    kitty
-    kitty.terminfo
-    ripgrep
-    fd
-    helium.packages.${system}.default
-  ])
-
-   ++
-
-   (with pkgs-unstable; [
-     nextflow
-     R
-     rstudio
-
-  ]);
+      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      git
+      gcc
+      xclip
+      openconnect
+      obsidian
+      wget
+      curl
+      kitty
+      kitty.terminfo
+      ripgrep
+      fd
+      helium.packages.${system}.default
+    ])
+    ++ (with pkgs-unstable; [
+      R
+      rustc
+      cargo
+      rustup
+      python314
+      rstudio
+    ]);
 }

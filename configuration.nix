@@ -4,10 +4,9 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   ...
-}: 
-
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -31,6 +30,17 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  nix.settings.trusted-users = [
+    "root"
+    "@wheel"
+  ];
+
+  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -131,12 +141,11 @@
   users.users."dylan" = {
     isNormalUser = true;
     description = "Dylan";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "docker"];
     packages = with pkgs; [
       #  thunderbird
     ];
   };
-
 
   #Experimental features and Flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -146,7 +155,7 @@
 
   nixpkgs.config.permittedInsecurePackages = [
     "electron-41.10.6"
- ];
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
