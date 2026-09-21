@@ -171,6 +171,7 @@
     "electron-41.10.6"
   ];
 
+  environment.shells = [pkgs.fish];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

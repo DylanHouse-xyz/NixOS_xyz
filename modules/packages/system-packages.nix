@@ -38,14 +38,16 @@ in {
       wget
       curl
       kitty
-      kitty.terminfo
+      ghostty.terminfo
       ripgrep
+      ghostty
       fd
       helium.packages.${system}.default
     ])
     ++ (with pkgs-unstable; [
       R
       rustc
+      distrobox
       cargo
       rustup
       python314

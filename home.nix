@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "dylan";
@@ -15,21 +17,30 @@
   # release notes.
   home.stateVersion = "26.05"; # Please read the comment before changing.
 
-
-
-  imports =
-    [
-      ./modules/dotfiles/bash.nix
-      ./modules/dotfiles/kitty.nix
-      ./modules/dotfiles/tmux.nix
-
-    ];
-
+  imports = [
+    ./modules/dotfiles/bash.nix
+    ./modules/dotfiles/fish/fish.nix
+    #  ./modules/dotfiles/kitty.nix
+    ./modules/dotfiles/tmux.nix
+    ./modules/dotfiles/ghostty.nix
+  ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
     pkgs.devenv
+    pkgs.fishPlugins.z
+    pkgs.fishPlugins.bass
+    pkgs.fishPlugins.sponge
+    pkgs.fishPlugins.gruvbox
+    pkgs.fishPlugins.done
+    pkgs.fishPlugins.fzf-fish
+    pkgs.fishPlugins.forgit
+    pkgs.fzf
+    pkgs.fishPlugins.grc
+    pkgs.grc
+    (pkgs.callPackage ./modules/dotfiles/fish/fish-colored-man.nix {inherit (pkgs.fishPlugins) buildFishPlugin;})
+
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -47,7 +58,6 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
