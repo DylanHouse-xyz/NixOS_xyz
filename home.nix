@@ -23,12 +23,14 @@
     #  ./modules/dotfiles/kitty.nix
     ./modules/dotfiles/tmux.nix
     ./modules/dotfiles/ghostty.nix
+    ./modules/Emacs/emacs.nix
   ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
     pkgs.devenv
+    pkgs.eza
     pkgs.fishPlugins.z
     pkgs.fishPlugins.bass
     pkgs.fishPlugins.sponge

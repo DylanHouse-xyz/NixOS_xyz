@@ -1,7 +1,8 @@
 {
+  inputs,
+  config,
   pkgs,
   pkgs-unstable,
-  helium,
   ...
 }:
 # R with Packages
@@ -37,12 +38,11 @@ in {
       obsidian
       wget
       curl
-      kitty
       ghostty.terminfo
       ripgrep
       ghostty
       fd
-      helium.packages.${system}.default
+      inputs.zen-browser.packages."${pkgs.system}".default
     ])
     ++ (with pkgs-unstable; [
       R

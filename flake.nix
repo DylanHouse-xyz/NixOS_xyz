@@ -4,9 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable"; # Unstable channel
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
     nvf.url = "github:notashelf/nvf";
-    helium.url = "github:AlvaroParker/helium-nix";
-    helium.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs"; # Ensures same version
   };
@@ -17,13 +16,12 @@
     nixpkgs-unstable,
     nvf,
     home-manager,
-    helium,
+    zen-browser,
     ...
-  }: let
+  } @ inputs: let
     lib = nixpkgs.lib;
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-    #pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config = {
@@ -47,7 +45,7 @@
       nixos = lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit helium;
+          inherit inputs;
           inherit pkgs-unstable;
         };
         modules = [
