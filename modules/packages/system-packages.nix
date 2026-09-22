@@ -42,6 +42,7 @@ in {
       ripgrep
       ghostty
       fd
+      zathura
       inputs.zen-browser.packages."${pkgs.system}".default
     ])
     ++ (with pkgs-unstable; [
